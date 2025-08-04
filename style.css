@@ -86,3 +86,7 @@ body {
     opacity: 0;
   }
 }
+.block:hover {
+  outline: 3px solid hwb(64 0% 0%);
+  z-index: 1;
+}
