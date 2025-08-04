@@ -1,10 +1,14 @@
 const grid = document.getElementById("grid");
 const coinsDisplay = document.getElementById("coins");
 const upgradeBtn = document.getElementById("upgradeBtn");
+const multiplierBtn = document.getElementById("multiplierBtn");
 
 let coins = 0;
 let pickaxePower = 1;
 let upgradeCost = 20;
+
+let coinMultiplier = 1;
+let multiplierCost = 500;
 
 const blockTypes = [
   { type: "rock", hp: 3, value: 1 },
@@ -23,12 +27,13 @@ function createBlock() {
   el.addEventListener("click", () => {
     let hp = parseInt(el.dataset.hp) - pickaxePower;
     if (hp <= 0) {
-      coins += parseInt(el.dataset.value);
+      const gain = parseInt(el.dataset.value) * coinMultiplier;
+      coins += gain;
       coinsDisplay.textContent = coins;
 
-      // trigger pop animation then replace
       el.classList.add("pop");
       el.style.pointerEvents = "none";
+
       setTimeout(() => {
         el.replaceWith(createBlock());
       }, 200);
@@ -54,6 +59,16 @@ upgradeBtn.addEventListener("click", () => {
     pickaxePower++;
     upgradeCost = Math.floor(upgradeCost * 1.5);
     upgradeBtn.textContent = `Upgrade Pickaxe (Cost: ${upgradeCost})`;
+    coinsDisplay.textContent = coins;
+  }
+});
+
+multiplierBtn.addEventListener("click", () => {
+  if (coins >= multiplierCost) {
+    coins -= multiplierCost;
+    coinMultiplier++;
+    multiplierCost = Math.floor(multiplierCost * 2.5);
+    multiplierBtn.textContent = `Increase Coin Multiplier (Cost: ${multiplierCost})`;
     coinsDisplay.textContent = coins;
   }
 });
