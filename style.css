@@ -1,0 +1,71 @@
+/* Reset & Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background: #1e1e1e;
+  color: white;
+  font-family: sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top UI (Title, Coins, Button) */
+.top-ui {
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* Grid Wrapper: fills remaining space and centers content */
+.grid-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 80px);
+  grid-gap: 6px;
+}
+
+/* Block Styling */
+.block {
+  width: 80px;
+  height: 80px;
+  background: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  user-select: none;
+}
+
+/* Block Types */
+.rock { background: #777; }
+.coal { background: #444; }
+.gold { background: #d4af37; color: black; }
+
+/* Pop Animation on Destroy */
+.block.pop {
+  animation: pop 0.2s ease-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
