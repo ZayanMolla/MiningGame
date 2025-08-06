@@ -1,92 +1,79 @@
 body {
   margin: 0;
-  padding: 0;
-  background: #1e1e1e;
-  color: white;
   font-family: sans-serif;
-  height: 100vh;
+  background-color: #111;
+  color: #fff;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .top-ui {
   text-align: center;
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;  /* stack vertically */
-  gap: 12px;              /* space between elements */
-  align-items: center;     /* center horizontally */
+  margin: 20px 0;
 }
 
-.top-ui button {
-  padding: 8px 20px;
+button {
+  padding: 10px 15px;
   font-size: 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background-color: #444;
+  margin: 5px;
+  background-color: #333;
   color: white;
-  transition: background-color 0.3s ease;
-  max-width: 250px;
-  width: 100%;
-  max-width: 300px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.top-ui button:hover {
-  background-color: #666;
+button:hover {
+  background-color: #555;
 }
 
 .grid-wrapper {
-  flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 60vh;
+  width: 100%;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(6, 80px);
-  grid-gap: 6px;
+  grid-template-columns: repeat(6, 60px);
+  gap: 8px;
 }
 
 .block {
-  width: 80px;
-  height: 80px;
-  background: #555;
+  width: 60px;
+  height: 60px;
+  background-color: gray;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-  user-select: none;
-  position: relative;
-  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: transform 0.1s ease, background-color 0.2s;
 }
 
-.rock { background: #777; }
-.coal { background: #444; }
-.gold { background: #d4af37; color: black; }
+.block:hover {
+  outline: 2px solid #fff;
+  transform: scale(1.05);
+}
 
-.block.pop {
-  animation: pop 0.2s ease-out;
+/* Ore colors */
+.rock { background-color: #888; }
+.coal { background-color: #333; }
+.gold { background-color: gold; color: black; }
+.emerald { background-color: #50c878; }
+.diamond { background-color: #b9f2ff; color: black; }
+.voidite { background-color: #4b0082; }
+
+/* Destroy animation */
+.pop {
+  animation: pop 0.2s forwards;
 }
 
 @keyframes pop {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.4);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
-  }
-}
-.block:hover {
-  outline: 3px solid hwb(64 0% 0%);
-  z-index: 1;
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0); opacity: 0; }
 }
