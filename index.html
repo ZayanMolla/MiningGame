@@ -12,29 +12,42 @@
     <button id="multiplierBtn">Increase Coin Multiplier (Cost: 500)</button>
   </div>
 
-  <div class="crafting-wrapper">
-    <button id="toggleCraftingBtn">Craft Pickaxe ▼</button>
-    <ul id="craftingList" style="display:none;"></ul>
+  <div class="ui-buttons">
+    <button id="openCraftingBtn">Open Crafting</button>
+    <button id="openInventoryBtn">Open Inventory</button>
+    <button id="openPickaxeBtn">Open Pickaxe Inventory</button>
   </div>
 
   <div class="grid-wrapper">
     <div id="grid" class="grid"></div>
   </div>
 
-  <div class="inventory-wrapper">
-    <button id="toggleInventoryBtn">Inventory ▼</button>
-    <div id="inventoryContainer" style="display:none;">
-      <ul id="inventory"></ul>
+  <!-- Crafting Modal -->
+  <div id="craftingModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeCraftingBtn">&times;</span>
+      <h2>Craft Pickaxe</h2>
+      <ul id="craftingList"></ul>
     </div>
-    
-    <div class="pickaxe-inventory-wrapper" style="text-align:center; margin-top: 15px;">
-      <button id="togglePickaxeInventoryBtn">Pickaxes ▼</button>
-      <div id="pickaxeInventoryContainer" style="display:none;">
-        <ul id="pickaxeInventoryList"></ul>
-      </div>
-    </div>
+  </div>
 
-    <button id="sellBtn">Sell All</button>
+  <!-- Inventory Modal -->
+  <div id="inventoryModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeInventoryBtn">&times;</span>
+      <h2>Inventory</h2>
+      <ul id="inventory"></ul>
+      <button id="sellBtn">Sell All</button>
+    </div>
+  </div>
+
+  <!-- Pickaxe Modal -->
+  <div id="pickaxeModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closePickaxeBtn">&times;</span>
+      <h2>Pickaxe Inventory</h2>
+      <ul id="pickaxeInventoryList"></ul>
+    </div>
   </div>
 
   <script src="script.js"></script>

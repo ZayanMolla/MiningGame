@@ -2,24 +2,31 @@ const grid = document.getElementById("grid");
 const coinsDisplay = document.getElementById("coins");
 const multiplierBtn = document.getElementById("multiplierBtn");
 const inventoryDisplay = document.getElementById("inventory");
-const sellBtn = document.getElementById("sellBtn");
-const toggleInventoryBtn = document.getElementById("toggleInventoryBtn");
-const inventoryContainer = document.getElementById("inventoryContainer");
-
-const toggleCraftingBtn = document.getElementById("toggleCraftingBtn");
-const craftingList = document.getElementById("craftingList");
-
-const togglePickaxeInventoryBtn = document.getElementById("togglePickaxeInventoryBtn");
-const pickaxeInventoryContainer = document.getElementById("pickaxeInventoryContainer");
 const pickaxeInventoryList = document.getElementById("pickaxeInventoryList");
+const sellBtn = document.getElementById("sellBtn");
+
+const craftingModal = document.getElementById("craftingModal");
+const inventoryModal = document.getElementById("inventoryModal");
+const pickaxeModal = document.getElementById("pickaxeModal");
+
+const openCraftingBtn = document.getElementById("openCraftingBtn");
+const openInventoryBtn = document.getElementById("openInventoryBtn");
+const openPickaxeBtn = document.getElementById("openPickaxeBtn");
+
+const closeCraftingBtn = document.getElementById("closeCraftingBtn");
+const closeInventoryBtn = document.getElementById("closeInventoryBtn");
+const closePickaxeBtn = document.getElementById("closePickaxeBtn");
+
+const craftingList = document.getElementById("craftingList");
 
 let coins = 0;
 let pickaxePower = 1;
 let coinMultiplier = 1;
 let multiplierCost = 500;
+let currentPickaxe = null;
 
 let inventory = {};
-let ownedPickaxes = [];
+let pickaxeInventory = [];
 
 const blockTypes = [
   { type: "rock", hp: 3, value: 1, chance: 0.4 },
@@ -30,14 +37,13 @@ const blockTypes = [
   { type: "voidite", hp: 50, value: 60, chance: 0.03 }
 ];
 
-// Updated Crafting recipes for pickaxes of each ore
 const craftingRecipes = [
   {
     name: "Stone Pickaxe",
     costCoins: 25,
     costItems: { rock: 3 },
     pickaxePower: 2,
-    requiresPickaxe: false,
+    requiresPickaxe: null,
   },
   {
     name: "Iron Pickaxe",
@@ -50,33 +56,31 @@ const craftingRecipes = [
     name: "Gold Pickaxe",
     costCoins: 100,
     costItems: { gold: 5 },
-    pickaxePower: 7,
+    pickaxePower: 6,
     requiresPickaxe: "Iron Pickaxe",
   },
   {
     name: "Emerald Pickaxe",
-    costCoins: 250,
-    costItems: { emerald: 7 },
-    pickaxePower: 12,
+    costCoins: 200,
+    costItems: { emerald: 5 },
+    pickaxePower: 10,
     requiresPickaxe: "Gold Pickaxe",
   },
   {
     name: "Diamond Pickaxe",
     costCoins: 500,
-    costItems: { diamond: 10 },
-    pickaxePower: 20,
+    costItems: { diamond: 5 },
+    pickaxePower: 16,
     requiresPickaxe: "Emerald Pickaxe",
   },
   {
     name: "Voidite Pickaxe",
     costCoins: 1000,
-    costItems: { voidite: 15 },
-    pickaxePower: 35,
+    costItems: { voidite: 5 },
+    pickaxePower: 25,
     requiresPickaxe: "Diamond Pickaxe",
-  },
+  }
 ];
-
-let currentPickaxe = null;
 
 function getRandomBlockType() {
   const rand = Math.random();
@@ -86,20 +90,6 @@ function getRandomBlockType() {
     if (rand < total) return block;
   }
   return blockTypes[0];
-}
-
-function updateInventoryDisplay() {
-  inventoryDisplay.innerHTML = "";
-  for (const ore in inventory) {
-    const name = ore.charAt(0).toUpperCase() + ore.slice(1);
-    const li = document.createElement("li");
-    li.textContent = `${name} x${inventory[ore]}`;
-    inventoryDisplay.appendChild(li);
-  }
-}
-
-function updateCoinsDisplay() {
-  coinsDisplay.textContent = coins;
 }
 
 function createBlock() {
@@ -115,10 +105,7 @@ function createBlock() {
     if (hp <= 0) {
       const oreType = blockData.type.toLowerCase();
       inventory[oreType] = (inventory[oreType] || 0) + 1;
-
       updateInventoryDisplay();
-      renderCraftingList();
-      renderPickaxeInventory();
 
       el.classList.add("pop");
       el.style.pointerEvents = "none";
@@ -141,22 +128,16 @@ function renderGrid() {
   }
 }
 
-function hasRequiredPickaxe(requirement) {
-  if (!requirement) return true;
-  return currentPickaxe === requirement;
+function hasRequiredPickaxe(required) {
+  if (!required) return true;
+  return currentPickaxe === required;
 }
 
 function canCraft(recipe) {
-  if (!hasRequiredPickaxe(recipe.requiresPickaxe)) {
-    return false;
-  }
-  if (coins < recipe.costCoins) {
-    return false;
-  }
+  if (!hasRequiredPickaxe(recipe.requiresPickaxe)) return false;
+  if (coins < recipe.costCoins) return false;
   for (const item in recipe.costItems) {
-    if (!inventory[item] || inventory[item] < recipe.costItems[item]) {
-      return false;
-    }
+    if (!inventory[item] || inventory[item] < recipe.costItems[item]) return false;
   }
   return true;
 }
@@ -165,7 +146,6 @@ function craftPickaxe(recipe) {
   if (!canCraft(recipe)) return;
 
   coins -= recipe.costCoins;
-
   for (const item in recipe.costItems) {
     inventory[item] -= recipe.costItems[item];
     if (inventory[item] <= 0) delete inventory[item];
@@ -173,10 +153,7 @@ function craftPickaxe(recipe) {
 
   pickaxePower = recipe.pickaxePower;
   currentPickaxe = recipe.name;
-
-  if (!ownedPickaxes.includes(recipe.name)) {
-    ownedPickaxes.push(recipe.name);
-  }
+  pickaxeInventory.push(recipe.name);
 
   updateInventoryDisplay();
   updateCoinsDisplay();
@@ -184,12 +161,25 @@ function craftPickaxe(recipe) {
   renderPickaxeInventory();
 }
 
+function updateInventoryDisplay() {
+  inventoryDisplay.innerHTML = "";
+  for (const item in inventory) {
+    const li = document.createElement("li");
+    li.textContent = `${item.charAt(0).toUpperCase() + item.slice(1)} x${inventory[item]}`;
+    inventoryDisplay.appendChild(li);
+  }
+}
+
+function updateCoinsDisplay() {
+  coinsDisplay.textContent = coins;
+}
+
 function renderCraftingList() {
   craftingList.innerHTML = "";
-  craftingRecipes.forEach((recipe) => {
+  craftingRecipes.forEach(recipe => {
     const li = document.createElement("li");
-
     const costText = [];
+
     if (recipe.costCoins > 0) costText.push(`${recipe.costCoins} coins`);
     for (const item in recipe.costItems) {
       costText.push(`${recipe.costItems[item]} ${item}`);
@@ -210,26 +200,18 @@ function renderCraftingList() {
 
 function renderPickaxeInventory() {
   pickaxeInventoryList.innerHTML = "";
-
-  ownedPickaxes.forEach((pickaxeName) => {
+  pickaxeInventory.forEach(pickaxe => {
     const li = document.createElement("li");
-    li.textContent = pickaxeName;
-
-    if (pickaxeName === currentPickaxe) {
-      li.classList.add("current");
-      li.textContent += " (Equipped)";
-    }
-
-    li.addEventListener("click", () => {
-      currentPickaxe = pickaxeName;
-      const recipe = craftingRecipes.find(r => r.name === pickaxeName);
-      if (recipe) {
-        pickaxePower = recipe.pickaxePower;
-      }
-      renderPickaxeInventory();
-      renderCraftingList();
+    const btn = document.createElement("button");
+    btn.textContent = "Equip";
+    btn.addEventListener("click", () => {
+      currentPickaxe = pickaxe;
+      const recipe = craftingRecipes.find(r => r.name === pickaxe);
+      if (recipe) pickaxePower = recipe.pickaxePower;
     });
 
+    li.textContent = pickaxe;
+    li.appendChild(btn);
     pickaxeInventoryList.appendChild(li);
   });
 }
@@ -245,54 +227,36 @@ multiplierBtn.addEventListener("click", () => {
 });
 
 sellBtn.addEventListener("click", () => {
-  let totalCoinsGained = 0;
-  for (const ore in inventory) {
-    const oreData = blockTypes.find(b => b.type === ore);
-    if (oreData) {
-      totalCoinsGained += oreData.value * inventory[ore] * coinMultiplier;
+  let totalCoins = 0;
+  for (const item in inventory) {
+    const block = blockTypes.find(b => b.type === item);
+    if (block) {
+      totalCoins += block.value * inventory[item] * coinMultiplier;
     }
   }
-  coins += totalCoinsGained;
+  coins += totalCoins;
   inventory = {};
   updateInventoryDisplay();
   updateCoinsDisplay();
 });
 
-toggleInventoryBtn.addEventListener("click", () => {
-  if (inventoryContainer.style.display === "none") {
-    inventoryContainer.style.display = "block";
-    toggleInventoryBtn.textContent = "Inventory ▲";
-  } else {
-    inventoryContainer.style.display = "none";
-    toggleInventoryBtn.textContent = "Inventory ▼";
-  }
-});
+// Modal open/close
+openCraftingBtn.onclick = () => craftingModal.style.display = "block";
+openInventoryBtn.onclick = () => inventoryModal.style.display = "block";
+openPickaxeBtn.onclick = () => pickaxeModal.style.display = "block";
 
-toggleCraftingBtn.addEventListener("click", () => {
-  if (craftingList.style.display === "none") {
-    craftingList.style.display = "block";
-    toggleCraftingBtn.textContent = "Craft Pickaxe ▲";
-  } else {
-    craftingList.style.display = "none";
-    toggleCraftingBtn.textContent = "Craft Pickaxe ▼";
-  }
-});
+closeCraftingBtn.onclick = () => craftingModal.style.display = "none";
+closeInventoryBtn.onclick = () => inventoryModal.style.display = "none";
+closePickaxeBtn.onclick = () => pickaxeModal.style.display = "none";
 
-togglePickaxeInventoryBtn.addEventListener("click", () => {
-  if (pickaxeInventoryContainer.style.display === "none") {
-    pickaxeInventoryContainer.style.display = "block";
-    togglePickaxeInventoryBtn.textContent = "Pickaxes ▲";
-  } else {
-    pickaxeInventoryContainer.style.display = "none";
-    togglePickaxeInventoryBtn.textContent = "Pickaxes ▼";
-  }
-});
-
-currentPickaxe = null;
+window.onclick = (e) => {
+  if (e.target === craftingModal) craftingModal.style.display = "none";
+  if (e.target === inventoryModal) inventoryModal.style.display = "none";
+  if (e.target === pickaxeModal) pickaxeModal.style.display = "none";
+};
 
 renderGrid();
 renderCraftingList();
-renderPickaxeInventory();
 updateCoinsDisplay();
 updateInventoryDisplay();
-multiplierBtn.textContent = `Increase Coin Multiplier (Cost: ${multiplierCost})`;
+renderPickaxeInventory();
