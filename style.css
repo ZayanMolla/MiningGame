@@ -77,59 +77,33 @@ button:hover {
   100% { transform: scale(0); opacity: 0; }
 }
 
-/* Modal Styles */
+/* Modal styles */
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 10;
+  display: none; /* Hidden by default */
+  position: fixed; 
+  z-index: 10; /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; 
+  height: 100%; 
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
 }
 
-.modal-content {
-  background-color: #1a1a1a;
-  margin: 10% auto;
-  padding: 20px;
-  border: 2px solid #444;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 10px;
-  color: #fff;
+#inventory, #pickaxeInventory, #craftingList {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
 }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: white;
-}
-
-#craftingList li,
-#inventory li,
-#pickaxeInventoryList li {
-  background-color: #222;
+#inventory li, #pickaxeInventory li, #craftingList li {
   margin: 8px 0;
-  padding: 12px 15px;
+  background-color: #333;
+  padding: 8px 12px;
   border-radius: 6px;
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-#craftingList li:hover,
-#inventory li:hover,
-#pickaxeInventoryList li:hover {
-  background-color: #444;
 }
 
 #craftingList button {
@@ -155,6 +129,7 @@ button:hover {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%;
 }
 
 #sellBtn:hover {

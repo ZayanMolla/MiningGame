@@ -6,47 +6,38 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="top-ui">
+  <div class="top-ui" style="text-align:center; margin: 20px;">
     <h1>⛏️ Low Depths</h1>
     <p>Coins: <span id="coins">0</span></p>
-    <button id="multiplierBtn">Increase Coin Multiplier (Cost: 500)</button>
-  </div>
 
-  <div class="ui-buttons">
-    <button id="openCraftingBtn">Open Crafting</button>
     <button id="openInventoryBtn">Open Inventory</button>
-    <button id="openPickaxeBtn">Open Pickaxe Inventory</button>
+    <button id="openCraftingBtn">Open Crafting</button>
   </div>
 
-  <div class="grid-wrapper">
+  <div class="grid-wrapper" style="display:flex; justify-content:center; align-items:center; height:60vh;">
     <div id="grid" class="grid"></div>
   </div>
 
-  <!-- Crafting Modal -->
-  <div id="craftingModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeCraftingBtn">&times;</span>
-      <h2>Craft Pickaxe</h2>
-      <ul id="craftingList"></ul>
-    </div>
-  </div>
-
   <!-- Inventory Modal -->
-  <div id="inventoryModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeInventoryBtn">&times;</span>
+  <div id="inventoryModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7);">
+    <div style="background:#222; max-width:400px; margin: 100px auto; padding: 20px; border-radius:8px; color:#fff; position:relative;">
       <h2>Inventory</h2>
-      <ul id="inventory"></ul>
-      <button id="sellBtn">Sell All</button>
+      <ul id="inventory" style="list-style:none; padding:0; max-height: 300px; overflow-y:auto;"></ul>
+      <h3>Pickaxes</h3>
+      <ul id="pickaxeInventory" style="list-style:none; padding:0; max-height: 150px; overflow-y:auto;"></ul>
+      <button id="sellBtn" style="margin-top: 15px; background-color: #c0392b; color: white; padding: 10px 20px; border:none; border-radius:5px; cursor:pointer;">
+        Sell All
+      </button>
+      <button id="closeInventoryBtn" style="position:absolute; top:10px; right:10px; background:#c0392b; border:none; color:#fff; padding:5px 10px; border-radius:4px; cursor:pointer;">X</button>
     </div>
   </div>
 
-  <!-- Pickaxe Modal -->
-  <div id="pickaxeModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closePickaxeBtn">&times;</span>
-      <h2>Pickaxe Inventory</h2>
-      <ul id="pickaxeInventoryList"></ul>
+  <!-- Crafting Modal -->
+  <div id="craftingPopup" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7);">
+    <div style="background:#222; max-width:400px; margin: 100px auto; padding: 20px; border-radius:8px; color:#fff; position:relative;">
+      <h2>Craft Pickaxe</h2>
+      <ul id="craftingList" style="list-style:none; padding:0; max-height: 400px; overflow-y:auto;"></ul>
+      <button id="closeCraftingBtn" style="position:absolute; top:10px; right:10px; background:#c0392b; border:none; color:#fff; padding:5px 10px; border-radius:4px; cursor:pointer;">X</button>
     </div>
   </div>
 
