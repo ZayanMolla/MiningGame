@@ -1,5 +1,6 @@
 const grid = document.getElementById("grid");
 const coinsDisplay = document.getElementById("coins");
+
 const inventoryDisplay = document.getElementById("inventory");
 const pickaxeInventoryDisplay = document.getElementById("pickaxeInventory");
 const sellBtn = document.getElementById("sellBtn");
@@ -13,9 +14,10 @@ const openCraftingBtn = document.getElementById("openCraftingBtn");
 const craftingPopup = document.getElementById("craftingPopup");
 const closeCraftingBtn = document.getElementById("closeCraftingBtn");
 
-const openOptionsBtn = document.getElementById("openOptionsBtn");
 const optionsModal = document.getElementById("optionsModal");
+const openOptionsBtn = document.getElementById("openOptionsBtn");
 const closeOptionsBtn = document.getElementById("closeOptionsBtn");
+const wipeSaveBtn = document.getElementById("wipeSaveBtn");
 
 let coins = 0;
 let coinMultiplier = 1;
@@ -142,7 +144,7 @@ function renderCraftingList() {
   craftingList.innerHTML = "";
   craftingRecipes.forEach(recipe => {
     const li = document.createElement("li");
-    li.textContent = `${recipe.name} — ${recipe.costCoins} coins + ${Object.entries(recipe.costItems).map(([k,v]) => `${v} ${k.charAt(0).toUpperCase() + k.slice(1)}`).join(", ")}`;
+    li.textContent = `${recipe.name} — ${recipe.costCoins} coins + ${Object.entries(recipe.costItems).map(([k,v]) => `${v} ${k}`).join(", ")}`;
 
     const btn = document.createElement("button");
     btn.textContent = "Craft";
@@ -166,7 +168,6 @@ sellBtn.addEventListener("click", () => {
   updateCoins();
 });
 
-// Inventory modal open/close handlers
 openInventoryBtn.addEventListener("click", () => {
   inventoryModal.style.display = "block";
 });
@@ -181,7 +182,6 @@ window.addEventListener("click", (e) => {
   }
 });
 
-// Crafting modal open/close handlers
 openCraftingBtn.addEventListener("click", () => {
   craftingPopup.style.display = "block";
 });
@@ -196,7 +196,6 @@ window.addEventListener("click", (e) => {
   }
 });
 
-// Options modal open/close handlers
 openOptionsBtn.addEventListener("click", () => {
   optionsModal.style.display = "block";
 });
@@ -207,6 +206,22 @@ closeOptionsBtn.addEventListener("click", () => {
 
 window.addEventListener("click", (e) => {
   if (e.target === optionsModal) {
+    optionsModal.style.display = "none";
+  }
+});
+
+wipeSaveBtn.addEventListener("click", () => {
+  if (confirm("Are you sure you want to wipe your saved data? This cannot be undone.")) {
+    localStorage.removeItem("lowdepths");
+    coins = 0;
+    coinMultiplier = 1;
+    inventory = {};
+    pickaxeInventory = [];
+    currentPickaxe = null;
+    pickaxePower = 1;
+    updateInventory();
+    updateCoins();
+    renderCraftingList();
     optionsModal.style.display = "none";
   }
 });
