@@ -79,28 +79,87 @@ button:hover {
 
 /* Modal styles */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; 
-  z-index: 10; /* Sit on top */
+  display: none;
+  position: fixed;
+  z-index: 10;
   left: 0;
   top: 0;
-  width: 100%; 
-  height: 100%; 
+  width: 100%;
+  height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  background-color: #222;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px;
+  color: white;
+  position: relative;
+}
+
+.closeBtn {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.closeBtn:hover {
+  color: white;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px;
+  background-color: #333;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 6px 6px 0 0;
+  transition: background-color 0.2s;
+  margin-right: 4px;
+}
+
+.tab-button:last-child {
+  margin-right: 0;
+}
+
+.tab-button.active {
+  background-color: #555;
+}
+
+.tab-button:hover:not(.active) {
+  background-color: #444;
 }
 
 #inventory, #pickaxeInventory, #craftingList {
   list-style: none;
   padding: 0;
-  margin: 10px 0;
+  margin: 0 0 10px 0;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #inventory li, #pickaxeInventory li, #craftingList li {
-  margin: 8px 0;
   background-color: #333;
   padding: 8px 12px;
   border-radius: 6px;
+  margin-bottom: 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -120,18 +179,38 @@ button:hover {
   cursor: not-allowed;
 }
 
-#sellBtn {
-  margin-top: 10px;
-  padding: 8px 14px;
+#sellBtn, #wipeSaveBtn, #openCodesBtn {
+  width: 100%;
+  padding: 10px;
   font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#sellBtn {
   background-color: #c0392b;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
 }
 
 #sellBtn:hover {
   background-color: #e74c3c;
+}
+
+#wipeSaveBtn {
+  background-color: #c0392b;
+}
+
+#wipeSaveBtn:hover {
+  background-color: #e74c3c;
+}
+
+#openCodesBtn {
+  background-color: #2980b9;
+  color: white;
+}
+
+#openCodesBtn:hover {
+  background-color: #3498db;
 }

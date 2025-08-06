@@ -18,6 +18,16 @@ const optionsModal = document.getElementById("optionsModal");
 const openOptionsBtn = document.getElementById("openOptionsBtn");
 const closeOptionsBtn = document.getElementById("closeOptionsBtn");
 const wipeSaveBtn = document.getElementById("wipeSaveBtn");
+const openCodesBtn = document.getElementById("openCodesBtn");
+
+const codesModal = document.getElementById("codesModal");
+const closeCodesBtn = document.getElementById("closeCodesBtn");
+const submitCodeBtn = document.getElementById("submitCodeBtn");
+const codeInput = document.getElementById("codeInput");
+const codeMessage = document.getElementById("codeMessage");
+
+const tabOres = document.getElementById("tabOres");
+const tabPickaxes = document.getElementById("tabPickaxes");
 
 let coins = 0;
 let coinMultiplier = 1;
@@ -101,7 +111,7 @@ function updateInventory() {
 
   pickaxeInventory.forEach(pickaxe => {
     const li = document.createElement("li");
-    li.textContent = `${pickaxe.name}`;
+    li.textContent = pickaxe.name;
     pickaxeInventoryDisplay.appendChild(li);
   });
 
@@ -176,24 +186,12 @@ closeInventoryBtn.addEventListener("click", () => {
   inventoryModal.style.display = "none";
 });
 
-window.addEventListener("click", (e) => {
-  if (e.target === inventoryModal) {
-    inventoryModal.style.display = "none";
-  }
-});
-
 openCraftingBtn.addEventListener("click", () => {
   craftingPopup.style.display = "block";
 });
 
 closeCraftingBtn.addEventListener("click", () => {
   craftingPopup.style.display = "none";
-});
-
-window.addEventListener("click", (e) => {
-  if (e.target === craftingPopup) {
-    craftingPopup.style.display = "none";
-  }
 });
 
 openOptionsBtn.addEventListener("click", () => {
@@ -204,10 +202,12 @@ closeOptionsBtn.addEventListener("click", () => {
   optionsModal.style.display = "none";
 });
 
-window.addEventListener("click", (e) => {
-  if (e.target === optionsModal) {
-    optionsModal.style.display = "none";
-  }
+openCodesBtn.addEventListener("click", () => {
+  codesModal.style.display = "block";
+});
+
+closeCodesBtn.addEventListener("click", () => {
+  codesModal.style.display = "none";
 });
 
 wipeSaveBtn.addEventListener("click", () => {
@@ -226,6 +226,45 @@ wipeSaveBtn.addEventListener("click", () => {
   }
 });
 
+window.addEventListener("click", (e) => {
+  if (e.target === inventoryModal) inventoryModal.style.display = "none";
+  if (e.target === craftingPopup) craftingPopup.style.display = "none";
+  if (e.target === optionsModal) optionsModal.style.display = "none";
+  if (e.target === codesModal) codesModal.style.display = "none";
+});
+
+// Tabs logic
+tabOres.addEventListener("click", () => {
+  tabOres.classList.add("active");
+  tabPickaxes.classList.remove("active");
+  inventoryDisplay.style.display = "block";
+  pickaxeInventoryDisplay.style.display = "none";
+});
+
+tabPickaxes.addEventListener("click", () => {
+  tabPickaxes.classList.add("active");
+  tabOres.classList.remove("active");
+  inventoryDisplay.style.display = "none";
+  pickaxeInventoryDisplay.style.display = "block";
+});
+
+// Cheat code logic
+submitCodeBtn.addEventListener("click", () => {
+  const code = codeInput.value.trim().toLowerCase();
+  if (code === "aug6") {
+    coins += 1000;
+    codeMessage.textContent = "Code 'aug6' redeemed! +1000 coins.";
+  } else if (code === "zayanmolla") {
+    coins += 5000;
+    codeMessage.textContent = "Code 'zayanmolla' redeemed! +5000 coins.";
+  } else {
+    codeMessage.textContent = "Invalid code!";
+  }
+  updateCoins();
+  codeInput.value = "";
+});
+
+// Save/load game
 function saveGame() {
   localStorage.setItem("lowdepths", JSON.stringify({
     coins,
