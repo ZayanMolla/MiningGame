@@ -41,6 +41,49 @@
     </div>
   </div>
 
+  <!-- Options Button fixed at bottom -->
+  <button id="openOptionsBtn" style="
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 20;
+  ">Options</button>
+
+  <!-- Options Modal -->
+  <div id="optionsModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7);">
+    <div style="
+      background:#222;
+      max-width:400px;
+      margin: 100px auto;
+      padding: 20px;
+      border-radius:8px;
+      color:#fff;
+      position:relative;
+    ">
+      <h2>Options</h2>
+      <p>Settings go here...</p>
+      <button id="closeOptionsBtn" style="
+        position:absolute;
+        top:10px;
+        right:10px;
+        background:#c0392b;
+        border:none;
+        color:#fff;
+        padding:5px 10px;
+        border-radius:4px;
+        cursor:pointer;
+      ">X</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

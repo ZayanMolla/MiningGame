@@ -13,6 +13,10 @@ const openCraftingBtn = document.getElementById("openCraftingBtn");
 const craftingPopup = document.getElementById("craftingPopup");
 const closeCraftingBtn = document.getElementById("closeCraftingBtn");
 
+const openOptionsBtn = document.getElementById("openOptionsBtn");
+const optionsModal = document.getElementById("optionsModal");
+const closeOptionsBtn = document.getElementById("closeOptionsBtn");
+
 let coins = 0;
 let coinMultiplier = 1;
 
@@ -87,8 +91,9 @@ function updateInventory() {
   pickaxeInventoryDisplay.innerHTML = "";
 
   for (const ore in inventory) {
+    const capitalizedOre = ore.charAt(0).toUpperCase() + ore.slice(1);
     const li = document.createElement("li");
-    li.textContent = `${ore} x${inventory[ore]}`;
+    li.textContent = `${capitalizedOre} x${inventory[ore]}`;
     inventoryDisplay.appendChild(li);
   }
 
@@ -137,7 +142,7 @@ function renderCraftingList() {
   craftingList.innerHTML = "";
   craftingRecipes.forEach(recipe => {
     const li = document.createElement("li");
-    li.textContent = `${recipe.name} — ${recipe.costCoins} coins + ${Object.entries(recipe.costItems).map(([k,v]) => `${v} ${k}`).join(", ")}`;
+    li.textContent = `${recipe.name} — ${recipe.costCoins} coins + ${Object.entries(recipe.costItems).map(([k,v]) => `${v} ${k.charAt(0).toUpperCase() + k.slice(1)}`).join(", ")}`;
 
     const btn = document.createElement("button");
     btn.textContent = "Craft";
@@ -188,6 +193,21 @@ closeCraftingBtn.addEventListener("click", () => {
 window.addEventListener("click", (e) => {
   if (e.target === craftingPopup) {
     craftingPopup.style.display = "none";
+  }
+});
+
+// Options modal open/close handlers
+openOptionsBtn.addEventListener("click", () => {
+  optionsModal.style.display = "block";
+});
+
+closeOptionsBtn.addEventListener("click", () => {
+  optionsModal.style.display = "none";
+});
+
+window.addEventListener("click", (e) => {
+  if (e.target === optionsModal) {
+    optionsModal.style.display = "none";
   }
 });
 
