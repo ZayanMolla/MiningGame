@@ -9,12 +9,34 @@
   <div class="top-ui">
     <h1>⛏️ Low Depths</h1>
     <p>Coins: <span id="coins">0</span></p>
-    <button id="upgradeBtn">Upgrade Pickaxe (Cost: 20)</button>
     <button id="multiplierBtn">Increase Coin Multiplier (Cost: 500)</button>
   </div>
+
+  <div class="crafting-wrapper">
+    <button id="toggleCraftingBtn">Craft Pickaxe ▼</button>
+    <ul id="craftingList" style="display:none;"></ul>
+  </div>
+
   <div class="grid-wrapper">
     <div id="grid" class="grid"></div>
   </div>
+
+  <div class="inventory-wrapper">
+    <button id="toggleInventoryBtn">Inventory ▼</button>
+    <div id="inventoryContainer" style="display:none;">
+      <ul id="inventory"></ul>
+    </div>
+    
+    <div class="pickaxe-inventory-wrapper" style="text-align:center; margin-top: 15px;">
+      <button id="togglePickaxeInventoryBtn">Pickaxes ▼</button>
+      <div id="pickaxeInventoryContainer" style="display:none;">
+        <ul id="pickaxeInventoryList"></ul>
+      </div>
+    </div>
+
+    <button id="sellBtn">Sell All</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
